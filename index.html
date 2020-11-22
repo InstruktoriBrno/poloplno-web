@@ -1,28 +1,4 @@
-<?php
-    if (isset($_POST['sent'])) {
-        $name = trim($_POST['name']);
-        $email = trim($_POST['email']);
-        $age = trim($_POST['age']);
-        $note = trim($_POST['note']);
-
-        if (!$name || !$email || !$age || !filter_var($email, FILTER_VALIDATE_EMAIL) || !filter_var($age, FILTER_VALIDATE_INT)) {
-            $error = true;
-        } else {
-            $to = "poloplno@instruktori.cz, me@jandrabek.cz";
-            $subject = "[Poloplno] Přihláška " . $name;
-            $headers = "From: poloplno@instruktori.cz\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
-            $message = "Zdravím,\nprávě se přihlásil nový účastník\n\nJméno: $name\nE-mail: $email\nVěk: $age\nPoznámka:\n$note\n\n--Poloplno web\n";
-            if(mail($to, $subject, $message, $headers)) {
-                header('Location: /?success=1#signup');
-                exit();
-            } else {
-                $error2 = true;
-            }
-        }
-    }
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -186,36 +162,7 @@
                     <p class="hide">Stojíme o každého účastníka ochotného ponořit se do zákoutí naší svobody pohledu na svět. Chceš-li vyzkoušet vidět svět Poloplný, vyplň následující přihlášku&hellip; a my se ti do pár dnů ozveme s dalšími informacemi, včetně podrobnějšího dotazníku. Údaje, které nám poskytneš, budou sloužit jen pro účely pořádání této akce pod Instruktory Brno, nikomu dalšímu je nepředáme.</p>
                     <p class="show_more" title="...ochotného ponořit se do zákoutí naší svobody pohledu na svět. Chceš-li vyzkoušet vidět svět Poloplný, vyplň následující přihlášku&hellip; a my se ti do pár dnů ozveme s dalšími informacemi, včetně podrobnějšího dotazníku. Údaje, které nám poskytneš, budou sloužit jen pro účely pořádání této akce pod Instruktory Brno, nikomu dalšímu je nepředáme.">Stojíme o každého účastníka&hellip;</p>
                     <p>Cena za celou akci včetně ubytování a stravování je 900 Kč, <span class="context-help help-storno">storno podmínky</span>.</p>
-                    <?php
-                    if (isset($error) && $error) {
-                        echo '<p class="error">Vyplňte, prosím, povinné údaje: jméno, e-mail a věk.</p>';
-                    }
-                    if (isset($error2) && $error2) {
-                        echo '<p class="error">Omlouváme se, ale došlo k chybě při odesílání vaší zprávy, prosím pošlete nám e-mail na adresu <a href="mailto:poloplno@instruktori.cz">poloplno@instruktori.cz</a>.</p>';
-                    }
-                    if (isset($_GET['success'])) {
-                        echo '<p class="success">Vaše přihláška byla úspěšně odeslána, ozveme se vám během pár dní.</p>';
-                    }
-                    ?>
                 </div>
-                <form method="post" action="/#signup">
-                    <label><span>Celé jméno:</span>
-                        <input required type="text" name="name" placeholder="Celé jméno" size="20" value="<?php echo htmlspecialchars(isset($_POST['name']) ? $_POST['name'] : null)?>">
-                    </label>
-                    <label><span>E-mail:</span>
-                        <input required type="email" name="email" placeholder="E-mail" size="20" value="<?php echo htmlspecialchars(isset($_POST['email']) ? $_POST['email'] : null)?>">
-                    </label>
-                    <label><span>Věk:</span>
-                        <input required type="number" name="age" size="20" placeholder="Věk" value="<?php echo htmlspecialchars(isset($_POST['age']) ? $_POST['age'] : null)?>">
-                    </label>
-                    <label><span>Vaše očekávání a vzkazy:</span>
-                        <textarea name="note" cols="20" rows="3" placeholder="Vaše očekávání a vzkazy..."><?php echo htmlspecialchars(isset($_POST['note']) ? $_POST['note'] : null)?></textarea>
-                    </label>
-                    <label><span></span>
-                        <input type="submit" name='sent' value="Odeslat">
-                    </label>
-                </form>
-
                 <div id="help-storno-content" style="display:none">
                     <p>Více než 28 dní před akcí – 0% storno<br>
                     28 – 14 dní před začátkem akce – 30% storno<br>
